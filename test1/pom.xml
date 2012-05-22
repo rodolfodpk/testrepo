@@ -4,7 +4,7 @@
 	<groupId>group1</groupId>
 	<artifactId>test1</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<name>test1</name>
 	<description />
 
