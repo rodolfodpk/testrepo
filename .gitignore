@@ -1,0 +1,20 @@
+bin
+.idea
+target
+lib
+classes
+data
+.classpath
+.project
+.settings
+*.log
+*~
+*.ipr
+*.iws
+*.iml
+pom.xml.versionsBackup
+*.class
+# Package Files #
+*.jar
+*.war
+*.ear
