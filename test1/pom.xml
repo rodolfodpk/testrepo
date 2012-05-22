@@ -165,11 +165,11 @@
 	<distributionManagement>
 		<repository>
 			<id>teste-central</id>
-			<url>http://localhost:8081/artifactory/releases-on-qa</url>
+			<url>http://localhost:8081/artifactory/releases-on-qa;opc1=v1,opc2=v2,opc3=v3</url>
 		</repository>
 		<snapshotRepository>
 			<id>teste-snapshots</id>
-			<url>http://localhost:8081/artifactory/libs-snapshot-local</url>
+			<url>http://localhost:8081/artifactory/libs-snapshot-local;opc1=v1,opc2=v2,opc3=v3</url>
 		</snapshotRepository>
 	</distributionManagement>
 
