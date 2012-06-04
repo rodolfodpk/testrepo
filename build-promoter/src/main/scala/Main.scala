@@ -1,36 +1,31 @@
 package com.example
 
-import dispatch._
-import dispatch.liftjson.Js._
-import net.liftweb.json.JsonAST._
-import net.liftweb.json.JsonParser._
-import scala.collection.immutable.HashSet
-import scala.collection.immutable.HashMap
-import java.security.MessageDigest
 import java.io.File
 import java.io.FileInputStream
-import org.apache.commons.codec.digest.DigestUtils._
-import org.apache.commons.codec.digest.DigestUtils
 import java.io.FileOutputStream
+
+import org.apache.commons.codec.digest.DigestUtils
+
+import dispatch.Request.toHandlerVerbs
+import dispatch.Request.toRequestVerbs
+import dispatch.Http
+import dispatch.thread
+import dispatch.url
+import net.liftweb.json.JsonParser.parse
 
 case class ArtifactoryClient(val serverUrl: String, val username: String, val password: String) {
 
   val http = new Http with thread.Safety // thread-safe executor
   
   def search(tags: Map[String, String]) = {
-
     val querie = url(serverUrl + "/api/search/prop?" + tagsStr(tags)).as_!(username, password)
     println("GET " + serverUrl + "/api/search/prop?" + tagsStr(tags))
-    
     val json = http(querie as_str)
     println("result=>\n" + json)
-    
     val files = parse(json) \ "results"
     val uris = for (f <- files.children) yield f \ "uri"
-
     implicit val formats = net.liftweb.json.DefaultFormats
     uris map (f => f.extract[String])
-
   }
   
   def donwload(file: String, targetPath: String) = {
@@ -83,10 +78,10 @@ object Launcher {
     val repoClient = new com.example.ArtifactoryClient("http://localhost:8081/artifactory", "admin", "password")
 
     val tags = Map("buildNumber" -> "value1", "revision" -> "value2")
-    
+
+    // repoClient.search(tags).par map (x => repoClient.donwload(x, "/home/rodolfodpk/Downloads/test1"))
     // val file = new File("/home/rodolfodpk/Downloads/test1/test1-0.0.4.pom")
     // repoClient.upload(file, "releases-on-qa", "group1", tags)
-    // repoClient.search(tags).par map (x => repoClient.donwload(x, "/home/rodolfodpk/Downloads/test1"))
     
     repoClient.search(tags).par map (x => repoClient.upload(repoClient.donwload(x, "/home/rodolfodpk/Downloads/test1"), "promoted-releases", "group1", tags))
     
@@ -95,3 +90,4 @@ object Launcher {
   }
 
 }
+
