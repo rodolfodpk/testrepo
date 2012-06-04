@@ -37,7 +37,7 @@ case class ArtifactoryClient(val serverUrl: String, val username: String, val pa
   }
   
   def upload(file: File, repository: String, folder: String, tags: Map[String, String]) {
-    if (!file.exists()) throw new IllegalArgumentException("Arquivo não existe!")
+    if (!file.exists()) throw new IllegalArgumentException("File doesn't exist!")
     println("PUT " + serverUrl + "/" + repository + ";" + tagsStr(tags) + "/" + targetFolder(file, folder) +  "/" + file.getName() )		
     val destination = url(serverUrl + "/" + repository + ";" + tagsStr(tags) + "/" + targetFolder(file, folder) + "/" + file.getName()).as_!(username, password)
     http(destination.PUT  <:< (Map("X-Checksum-MD5" -> md5(file), "X-Checksum-Sha1" -> sha1(file) )) <<< (file, "application/zip") >|)
