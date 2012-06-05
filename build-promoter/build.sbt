@@ -1,4 +1,4 @@
-organization := "com.example"
+organization := "rdpk.scala"
 
 name := "build-promoter"
 

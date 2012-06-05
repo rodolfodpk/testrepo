@@ -1,4 +1,4 @@
-package com.example
+package rdpk.scala
 
 import java.io.File
 import java.io.FileInputStream
@@ -75,7 +75,7 @@ object Launcher {
 
   def main(args: Array[String]) {
 
-    val repoClient = new com.example.ArtifactoryClient("http://localhost:8081/artifactory", "admin", "password")
+    val repoClient = new ArtifactoryClient("http://localhost:8081/artifactory", "admin", "password")
 
     val tags = Map("buildNumber" -> "value1", "revision" -> "value2")
 
